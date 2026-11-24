@@ -1,0 +1,4 @@
+.content-assets-import/
+__pycache__/
+*.pyc
+.DS_Store

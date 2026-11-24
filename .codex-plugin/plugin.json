@@ -1,0 +1,16 @@
+{
+  "name": "content-assets",
+  "version": "0.2.1",
+  "description": "Import the finished video, workflow files, materials and viral links from this conversation into the internal content assets platform as drafts.",
+  "author": { "name": "Dealism" },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "内容资产管理中台",
+    "shortDescription": "把这次做的东西导入内容中台",
+    "longDescription": "在对话里提到这个插件后，它会在你同意的前提下读取当前对话和工作目录，整理出成片和制作信息、工作流文件、素材、爆款链接，列出清单等你确认，再存为内容中台的草稿。不会发布，不会读取或显示导入令牌。",
+    "developerName": "Dealism",
+    "category": "Productivity",
+    "capabilities": ["Skills"],
+    "defaultPrompt": ["Use $import-content-assets 把这次做的东西导入内容中台"]
+  }
+}

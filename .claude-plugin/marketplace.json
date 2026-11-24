@@ -1,0 +1,8 @@
+{
+  "name": "content-assets-plugin",
+  "description": "内容资产管理中台的内部导入插件（Claude Code）。",
+  "owner": { "name": "Dealism" },
+  "plugins": [
+    { "name": "content-assets", "source": "./", "category": "productivity" }
+  ]
+}

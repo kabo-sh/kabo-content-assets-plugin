@@ -1,0 +1,12 @@
+{
+  "name": "content-assets-plugin-codex",
+  "interface": { "displayName": "内容资产管理中台" },
+  "plugins": [
+    {
+      "name": "content-assets",
+      "source": { "source": "local", "path": "./" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    }
+  ]
+}

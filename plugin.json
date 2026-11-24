@@ -1,0 +1,18 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "content-assets",
+  "version": "0.2.1",
+  "description": "Import the finished video, workflow files, materials and viral links from this conversation into the internal content assets platform as drafts.",
+  "author": { "name": "Dealism" },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "内容资产管理中台",
+        "shortDescription": "把这次做的东西导入内容中台",
+        "developerName": "Dealism",
+        "category": "Productivity",
+        "defaultPrompt": ["把这次做的东西导入内容中台"]
+      }
+    }
+  }
+}
