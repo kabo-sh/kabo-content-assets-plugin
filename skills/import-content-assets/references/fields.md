@@ -88,7 +88,7 @@ their own identifiers: a viral by its link, a workflow by `{"workflow_id": "…"
 | `name` | should | Says what it makes, in the user's language, at most 30 characters |
 | `description` | should | One or two sentences: what goes in, what comes out |
 | `change_note` | should | First import: where it came from ("首次导入，来自 Claude 对话"). Changed version of a platform workflow: what changed |
-| `related_virals` | optional | Links this workflow was built to remake |
+| `related_virals` | optional | Links this workflow was built to remake. Leave out when the batch has one viral: the platform links every workflow, output and asset in a batch to the batch's virals |
 | `inputs.materials[]` | should | What someone must prepare before running: `kind` (`图片` / `视频` / `音乐` / `文案` / `其他`), `count`, `requirement` |
 | `inputs.secrets[]` | when any | `name` and `purpose` only. The script adds the names it finds; you add the ones it cannot see (a key file read from disk, a login) and write each `purpose`. Never a value, never a personal file path |
 | `inputs.environment` | optional | Tools and versions needed |
@@ -182,5 +182,5 @@ Only the link. The platform fetches the title, author, cover, statistics and the
 
 | Field | Level | Notes |
 |---|---|---|
-| `url` | must | A TikTok, Instagram or YouTube video link |
+| `url` | must | The link of the video the work was modelled on. Any platform (TikTok, Instagram, YouTube, X, …). The platform reads titles and statistics only for the platforms it can fetch; for others it keeps the link |
 | `method` | optional | Only if the **original author** published how they made it. Never your own guess |

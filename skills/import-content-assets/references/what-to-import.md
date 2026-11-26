@@ -7,7 +7,7 @@
 | Workflow (工作流) | A way of making, as ordered steps, with the files that implement it | The conversation contains a method that produced a finished video: prompts, model calls, scripts or an edit project |
 | Output (成片) | A finished video made with a workflow | The latest exported version of each distinct video the user kept. Not previews, test renders or earlier versions |
 | Asset (素材) | A reusable file | Images, video clips, audio that went into a finished video, or that the user named |
-| Viral (爆款) | The reference the work imitates | A TikTok, Instagram or YouTube video link the work was modelled on. A link shown only for comparison, as an example of a problem, or whose ideas were tried and then dropped is not one |
+| Viral (爆款) | The reference the work imitates | A link to the video the work was modelled on, from any platform (TikTok, Instagram, YouTube, X, …). A link shown only for comparison, as an example of a problem, or whose ideas were tried and then dropped is not one |
 
 ## How to split
 

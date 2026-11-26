@@ -3,7 +3,7 @@ name: import-content-assets
 description: "Import what this conversation produced into the internal content assets platform (内容资产管理中台) as drafts: the workflow (steps, prompts, files), the finished videos made with it, the materials, and the viral reference links. Use only when the user explicitly mentions this plugin or asks to import, save or upload this work to the content assets platform / 内容中台 / 中台 (e.g. 「导入中台」「存到内容中台」「把这次做的传上去」). Never start on your own."
 compatibility: "Requires Python 3.9+, read access to the working directory, and network access from scripts to the platform and to the upload links it returns. Needs a content assets import token that the user stores themselves."
 metadata:
-  version: "0.2.1"
+  version: "0.2.2"
 ---
 
 # Import content assets
@@ -58,7 +58,7 @@ Read `references/what-to-import.md` and `references/fields.md`, then decide:
 - **Outputs (成片)**: each finished video made with a workflow. If it remakes a viral video, it is
   that video's 复刻.
 - **Assets (素材)**: reusable files that went into the videos.
-- **Virals (爆款)**: TikTok / Instagram / YouTube links the work was modelled on.
+- **Virals (爆款)**: links of the videos the work was modelled on, from any platform. Everything imported in one batch is linked to these virals on the platform: the workflows, the outputs (as 复刻) and the materials, so list the viral even when it is on X or another site.
 
 Then ask the single question: which Project. Offer the list from step 2. If the user already named
 the project in this conversation, use it and say so instead of asking.
