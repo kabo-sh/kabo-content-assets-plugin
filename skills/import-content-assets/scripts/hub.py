@@ -37,7 +37,6 @@ MATERIAL_KINDS = ("图片", "视频", "音乐", "文案", "其他")
 COST_BASIS = ("实测", "估算")
 MEDIA_EXT = {"mov", "mp4", "webm", "m4v", "wav", "mp3", "m4a", "png", "jpg", "jpeg", "webp", "gif"}
 VIDEO_EXT = {"mov", "mp4", "webm", "m4v"}
-LINK_HOST = re.compile(r"(^|\.)(tiktok\.com|instagram\.com|youtube\.com|youtu\.be)$", re.I)
 KEY = re.compile(r"[a-z0-9-]{1,40}")
 
 SKIP_DIRS = {
@@ -84,16 +83,18 @@ def is_env_file(path):
 
 
 def video_link(value):
+    # 爆款就是一条链接，不限平台：任何 http/https 网页地址都收，和中台的规则一致。
+    if not isinstance(value, str) or not value.strip() or len(value) > 2048:
+        return False
     try:
-        url = urlparse(value)
+        url = urlparse(value.strip())
     except ValueError:
         return False
     return (
         url.scheme in ("http", "https")
         and not url.username
         and not url.password
-        and bool(LINK_HOST.search(url.hostname or ""))
-        and len(url.path) > 1
+        and "." in (url.hostname or "")
     )
 
 
@@ -319,7 +320,7 @@ def build_workflow(item, batch, base, out):
     check_cost(label, item.get("cost"), steps)
     for link in item.get("related_virals", []):
         if not video_link(link):
-            fail(f"工作流「{label}」关联的爆款链接不是 TikTok / Instagram / YouTube：{link}")
+            fail(f"工作流「{label}」关联的爆款链接不是 http/https 网页地址：{link}")
 
     inputs = dict(item.get("inputs") or {})
     for m in inputs.get("materials", []):
@@ -446,7 +447,7 @@ def cmd_pack(args):
     for v in m.get("virals", []):
         url = (v.get("url") or "").strip()
         if not video_link(url):
-            fail(f"不是 TikTok / Instagram / YouTube 的链接：{url}")
+            fail(f"爆款链接不是 http/https 网页地址：{url}")
         viral_urls.add(url)
         batch["virals"].append({
             "url": url, "project": v.get("project") or project,
@@ -468,18 +469,20 @@ def cmd_pack(args):
             fail(f"成片 {key} 必须指明用的是哪个工作流。对不上工作流的视频请改按素材导入")
         viral = (o.get("viral") or "").strip()
         if viral and not video_link(viral):
-            fail(f"成片 {key} 关联的爆款链接不是 TikTok / Instagram / YouTube：{viral}")
+            fail(f"成片 {key} 关联的爆款链接不是 http/https 网页地址：{viral}")
         for ref in o.get("assets", []):
             if keys.get(ref) != "素材":
                 fail(f"成片 {key} 引用的素材 {ref} 不在这一批里")
         for link in o.get("publish_links", []):
             if not video_link(link):
-                fail(f"成片 {key} 的发布链接不是 TikTok / Instagram / YouTube：{link}")
+                fail(f"成片 {key} 的发布链接不是 http/https 网页地址：{link}")
         name = (o.get("name") or "").strip()
+        # 平台会把一批里的东西都关联到这一批的爆款上；成片没写素材时，这一批的素材都算它用的。
+        batch_virals = [v["url"] for v in batch["virals"]]
         notes = []
-        if not viral and not name:
+        if not viral and not name and not batch_virals:
             notes.append("没有关联爆款，也没有名称")
-        if not o.get("assets"):
+        if not o.get("assets") and not batch["assets"]:
             notes.append("没有列出用到的素材")
         batch["outputs"].append({
             "key": key, "name": name, "workflow": workflow, "viral": viral,
@@ -488,7 +491,9 @@ def cmd_pack(args):
         })
         summary.append({
             "类型": "成片", "文件": path.name, "名称": name or "（关联爆款后由平台命名为第 N 版）",
-            "工作流": shown, "关联爆款": viral or "未关联", "用到的素材数": len(o.get("assets", [])),
+            "工作流": shown,
+            "关联爆款": viral or ("这一批的爆款（自动关联）" if batch_virals else "未关联"),
+            "用到的素材数": len(o.get("assets", [])) or len(batch["assets"]),
             "大小": path.stat().st_size, "需要核对": notes,
         })
 
